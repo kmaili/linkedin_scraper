@@ -1,0 +1,205 @@
+[
+    {
+        "Text": "Top 10 Most Popular Open-Source Databases  This list is based on factors like adoption, industry impact, and the general awareness of the database among the developer community.  1 - MySQL 2 - PostgreSQL 3 - MariaDB 4 - Apache Cassandra 5 - Neo4j 6 - SQLite 7 - CockroachDB 8 - Redis 9 - MongoDB 10 - Couchbase  Over to you: Which other database would you add to this list?-- Subscribe to our weekly newsletter to get a Free System Design PDF (158 pages): https:\/\/bit.ly\/3KCnWXqhashtag#systemdesign hashtag#coding hashtag#interviewtips .\n\n\n\n\n\n\n\n    Voir la traduction",
+        "MediaLink": "https:\/\/media.licdn.com\/dms\/image\/D4E22AQEXNSisUGNLHQ\/feedshare-shrink_800\/0\/1718207113929?e=1723075200&v=beta&t=_GGgPS3W0bIVRek8neI4U8TytkzvDCCjFC5l1TRTwtg",
+        "MediaType": "Image",
+        "ReactionsCount": 2439,
+        "SharesCount": 378,
+        "Comments": [
+            {
+                "comment": "Thanks for sharing, but imo the animation in this figure is very unnecessary and distracting. It would be nice to see more thoughtful animations, and for many times, more animation does not mean clearer illustration.",
+                "replies": null
+            },
+            {
+                "comment": "In the Distributed SQL space CockroachDB is not 100% Open Source. hashtag#YugabyteDB is fully open-source under the\u00a0Apache 2.0 license. Plus other advantages!",
+                "replies": null
+            },
+            {
+                "comment": "I would say \"Open-Source Database Management Systems\" instead of \"Open-Source Databases\"",
+                "replies": [
+                    "Fran\u00e7ois Jacquenet If the database itself is open source, you've got security problems.  \ud83d\ude04 "
+                ]
+            },
+            {
+                "comment": "this presentation of hashtag#mariadb raises so many questions : is not offering full rdbms feature just as postgre? is it not acid compliant as postgre ?is there no full text search as in  mysql ?how is the fact it has been forked from mysql relevant ?does it not offer strong consistency as mysql ?if i was too choose an rdbms for my company based from this presentation i would not consider mariadb as a valid choice while in reality it is just as good as mysql or postgreql.",
+                "replies": null
+            },
+            {
+                "comment": "For Unity projects, we use LMDB (https:\/\/en.m.wikipedia.org\/wiki\/Lightning_Memory-Mapped_Database) We don\u2019t talk about it much, but that\u2019s part of what powers Unity\u2019s AssetDatabase.",
+                "replies": null
+            },
+            {
+                "comment": "Great list! Another open-source database to consider is Elasticsearch, especially for search and analytics use cases.",
+                "replies": [
+                    "DataDiveinc to me . I prefer not to include elasticsearch as database is because of the nature to do log analytics. Despite being able to stores(similar with nosql way) things i don't want to get mixed up with. Therefore, lets not include it."
+                ]
+            },
+            {
+                "comment": "Great list! It\u2019s impressive to see the variety and strength of open-source databases available today. If I were to add another database to this list, it would be Elasticsearch.Elasticsearch is a powerful, distributed, RESTful search and analytics engine capable of solving a growing number of use cases. It's particularly known for its real-time search capabilities and scalability, making it a favorite for full-text search, log and event data analytics, and more.",
+                "replies": null
+            },
+            {
+                "comment": "Is Redis still open-source?",
+                "replies": [
+                    "David Sagang (LION) thought the same"
+                ]
+            },
+            {
+                "comment": "Great idea! Thanks for this valuable repost, Bhuvaneswari Subramani! We stand by you in developing a community of leading thinkers. \ud83d\udc9c \ud83d\udc9c \ud83d\udc9c",
+                "replies": null
+            },
+            {
+                "comment": "Any 2 of these skills make you current and invaluable in tech. CHECK if you are paid correctly using https:\/\/techworth.trueselfy.com ",
+                "replies": null
+            },
+            {
+                "comment": "Adding my 2 cents here- InfluxDB: For time-series data (sensor readings, metrics)Elasticsearch: For searching and analyzing large datasetsApache Kafka: For real-time streaming data pipelines",
+                "replies": [
+                    "Cloudairy thanks for sharing "
+                ]
+            },
+            {
+                "comment": "Oracle has plans for MySQL \ud83e\udd14 https:\/\/www.percona.com\/blog\/is-oracle-finally-killing-mysql\/",
+                "replies": null
+            },
+            {
+                "comment": "PostgreSQL has \"SQL query support\". Not sure how many brain cells I lost when reading this.",
+                "replies": [
+                    "Alex Lawrence would it help to know that MySQL is missing this feature?"
+                ]
+            },
+            {
+                "comment": "What about Valkey?https:\/\/valkey.io\/",
+                "replies": null
+            },
+            {
+                "comment": "Great list, Alex Xu!Add on:- TiDB: An open-source NewSQL database that supports Hybrid Transactional and Analytical Processing workloads.",
+                "replies": null
+            },
+            {
+                "comment": "Which one is better for web applications? And why?",
+                "replies": null
+            },
+            {
+                "comment": "I used WAMP successfully 21 years ago (Windows, Apache, MySQL, PHP)",
+                "replies": null
+            },
+            {
+                "comment": "Very helpful!",
+                "replies": null
+            },
+            {
+                "comment": "You can add Apache DRUID (druid.apache.org) - Time Series , Analytics database ",
+                "replies": null
+            },
+            {
+                "comment": "This list includes essential open source databases. Great share Alex XuCrackInterview",
+                "replies": null
+            },
+            {
+                "comment": "It seems you don't like ClickHouse :)",
+                "replies": null
+            },
+            {
+                "comment": "Very helpful!",
+                "replies": null
+            },
+            {
+                "comment": "Your list captures the essential tools every developer should be familiar with, Alex Xu",
+                "replies": null
+            },
+            {
+                "comment": "Alex Xu Would you be so kind as to share the tool you use to create these nice-looking diagrams?",
+                "replies": null
+            },
+            {
+                "comment": "MySQL + PostgreSQL + MariaDB + Apache Cassandra + Neo4j + SQLite + CockroachDB + Redis + MongoDB + Couchbase = Database Heaven! ",
+                "replies": null
+            },
+            {
+                "comment": "In the SQL scope I would add SurrealDB",
+                "replies": null
+            },
+            {
+                "comment": "Apache druid for time series data.",
+                "replies": null
+            },
+            {
+                "comment": "Cockroach db what a name \ud83d\ude02",
+                "replies": null
+            },
+            {
+                "comment": "Great list! Can't wait to see what suggestions others have. \ud83d\udd1d",
+                "replies": null
+            },
+            {
+                "comment": "WOw I did not know Neo4j is opensource.",
+                "replies": null
+            },
+            {
+                "comment": "Thanks for sharing, it's useful as always!",
+                "replies": null
+            },
+            {
+                "comment": "Hiceyo3y",
+                "replies": null
+            },
+            {
+                "comment": "Very informative",
+                "replies": null
+            },
+            {
+                "comment": "I take screenshot of every post by Alex Hu",
+                "replies": null
+            },
+            {
+                "comment": "Nicely constructed!",
+                "replies": null
+            },
+            {
+                "comment": "Great list! Personally, I've found MongoDB to be incredibly versatile for various projects. Thanks for sharing this, Alex",
+                "replies": null
+            },
+            {
+                "comment": "clickhouse",
+                "replies": null
+            },
+            {
+                "comment": "Thanks for sharing detail info.",
+                "replies": null
+            },
+            {
+                "comment": "Great list! Influx and Scylla I would like to add ",
+                "replies": null
+            },
+            {
+                "comment": "Very helpful!",
+                "replies": null
+            },
+            {
+                "comment": "Maggie Veen ",
+                "replies": null
+            },
+            {
+                "comment": "Love this",
+                "replies": null
+            },
+            {
+                "comment": "Steve Rodriguez",
+                "replies": null
+            },
+            {
+                "comment": "DuckDB",
+                "replies": null
+            },
+            {
+                "comment": "Insightful!",
+                "replies": null
+            },
+            {
+                "comment": "Insightful!",
+                "replies": null
+            }
+        ]
+    }
+]

@@ -41,10 +41,10 @@ def get_media_info(container):
 
 def get_comment_replies(comment):
     try:
-        replies_div = comment.find("div", {"class":"replies-list"})
+        replies_div = comment.find("div", {"class":"comments-replies-list"})
         if(not replies_div):
             return None
-        all_replies_articles = replies_div.find_all("article", {"class":"comments-comment-item"})
+        all_replies_articles = replies_div.find_all("article", {"class":"comments-comment-entity--reply"})
         comment_replies = []
         for article in all_replies_articles:
             main_comment = article.find("span", {"class":"comments-comment-item__main-content"})

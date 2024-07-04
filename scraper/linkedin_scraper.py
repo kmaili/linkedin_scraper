@@ -1,4 +1,3 @@
-# linkedin_scraper.py
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -10,9 +9,9 @@ import time
 import random
 import pandas as pd
 from datetime import datetime
-from config import USERNAME, PASSWORD, LINKEDIN_URL
+from config import USERNAME, PASSWORD, LINKEDIN_URL, DRIVER_PATH
 from .constants import SCROLL_PAUSE_TIME
-from .utils import convert_abbreviated_to_number, get_text, get_media_info, get_comment_replies
+from .utils import get_text, get_media_info, get_comment_replies
 import re
 class LinkedInScraper:
     def __init__(self):
@@ -22,17 +21,14 @@ class LinkedInScraper:
     def initialize_driver(self):
         try:
             chrome_options = Options()
-            return webdriver.Chrome(options=chrome_options)
-            # selenium_grid_url = 'http://54.36.177.119:4432'
-            # desired_cap = {
-            #     'browserName': 'chrome',
-            #     'remote': selenium_grid_url
-            # }
+            return webdriver.Chrome(options=chrome_options,executable_path=DRIVER_PATH)
+            selenium_grid_url = 'http://54.36.177.119:4432'
             
-            # return webdriver.Remote(
-            #     command_executor=selenium_grid_url,
-            #     options=Options()
-            # )
+            
+            return webdriver.Remote(
+                command_executor=selenium_grid_url,
+                options=Options()
+            )
         except Exception as e:
             print(f"Error initializing WebDriver: {e}")
             return None
@@ -43,7 +39,7 @@ class LinkedInScraper:
             self.driver.find_element(By.ID, "username").send_keys(USERNAME)
             self.driver.find_element(By.ID, "password").send_keys(PASSWORD)
             self.driver.find_element(By.ID, "password").submit()
-            time.sleep(random.uniform(15, 25))
+            time.sleep(random.uniform(4, 7))
         except Exception as e:
             print(f"Error logging in: {e}")
 
@@ -79,12 +75,10 @@ class LinkedInScraper:
 
     def extract_posts(self):
         try:
-            source_page = self.driver.page_source
-            linkedin_soup = bs(source_page.encode("utf-8"), "html.parser")
             posts = self.driver.find_elements(By.CSS_SELECTOR, "[data-view-name='feed-full-update']")
             previousLen = 0
 
-            for post in posts:
+            for post in posts[:1]:
                 self.click_voir_plus(post)
                 time.sleep(random.uniform(2, 5))
                 soup = bs(post.get_attribute('outerHTML'), 'html.parser')
@@ -92,14 +86,17 @@ class LinkedInScraper:
                 media_link, media_type = get_media_info(soup)
                 
                 try:
-                    reaction_count = soup.find("span", {"class":"social-details-social-counts__reactions-count"}).text.strip().split("\\", 1)[0]
+                    reaction_count = soup.find("span", {"class":"social-details-social-counts__reactions-count"}).text
+                    reaction_count = int(''.join(re.findall(r'\d',reaction_count)))
+                    
                     print("reaction: ",reaction_count)
                 except Exception as e:
                     print(f"Post has no reactions or error extracting reactions: {e}")
                     reaction_count = 0
 
                 try:
-                    share_count = soup.find("span", text=re.compile("republications")).text.strip().split('\\', 1)[0]
+                    share_count = soup.find("span", text=re.compile("republications")).text
+                    share_count = int(''.join(re.findall(r'\d',share_count)))
                     print("repub: ",share_count)
                     #share_count = convert_abbreviated_to_number(share_count.split()[0])
                 except Exception as e:
@@ -137,7 +134,6 @@ class LinkedInScraper:
             try:
                 buttons = post.find_elements(By.TAG_NAME, 'button')
                 if len(buttons) == 0:
-                    print("no show more found")
                     break
                 for button in buttons:
                     className = button.get_attribute('class')
@@ -154,11 +150,11 @@ class LinkedInScraper:
 
         try:
             comments_soup = bs(self.driver.page_source.encode("utf-8"), "html.parser")
-            all_comments_articles = comments_soup.find_all("article", {"class":"comments-comments-list__comment-item"})
+            all_comments_articles = comments_soup.find_all(lambda tag: tag.name == 'article' and tag.get('class') == ['comments-comment-entity'])
             post_comments = []
-            for index in range(previousLen, len(all_comments_articles)):
-                main_comment = all_comments_articles[index].find("span", {"class":"comments-comment-item__main-content"})
-                replies = get_comment_replies(all_comments_articles[index])
+            for comment in all_comments_articles[previousLen:]:
+                main_comment = comment.find("span", {"class":"comments-comment-item__main-content"})
+                replies = get_comment_replies(comment)
                 post_comments.append({'comment': main_comment.find("span").text, 'replies': replies})
             return post_comments
         except Exception as e:
