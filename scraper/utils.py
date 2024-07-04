@@ -41,15 +41,15 @@ def get_media_info(container):
 
 def get_comment_replies(comment):
     try:
-        replies_div = comment.find("div", {"class":"comments-replies-list"})
+        replies_div = comment.find("div", {"class":"replies-list"})
         if(not replies_div):
             return None
-        all_replies_articles = replies_div.find_all("article", {"class":"comments-comment-entity--reply"})
+        all_replies_articles = replies_div.find_all("article", {"class":"comments-reply-item"})
         comment_replies = []
         for article in all_replies_articles:
             main_comment = article.find("span", {"class":"comments-comment-item__main-content"})
             comment_replies.append(main_comment.find("span").text)
         return comment_replies
     except Exception as e:
-        print(f"Error getting comment replies: {e}")
-        return None
+        print(f"Comment has no replies or error getting comment replies: {e}")
+        return []

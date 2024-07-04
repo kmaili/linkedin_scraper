@@ -22,13 +22,11 @@ class LinkedInScraper:
         try:
             chrome_options = Options()
             return webdriver.Chrome(options=chrome_options,executable_path=DRIVER_PATH)
-            selenium_grid_url = 'http://54.36.177.119:4432'
-            
-            
-            return webdriver.Remote(
-                command_executor=selenium_grid_url,
-                options=Options()
-            )
+            #selenium_grid_url = 'http://54.36.177.119:4432'
+            # return webdriver.Remote(
+            #     command_executor=selenium_grid_url,
+            #     options=Options()
+            # )
         except Exception as e:
             print(f"Error initializing WebDriver: {e}")
             return None
@@ -78,7 +76,7 @@ class LinkedInScraper:
             posts = self.driver.find_elements(By.CSS_SELECTOR, "[data-view-name='feed-full-update']")
             previousLen = 0
 
-            for post in posts[:1]:
+            for post in posts:
                 self.click_voir_plus(post)
                 time.sleep(random.uniform(2, 5))
                 soup = bs(post.get_attribute('outerHTML'), 'html.parser')
@@ -98,7 +96,6 @@ class LinkedInScraper:
                     share_count = soup.find("span", text=re.compile("republications")).text
                     share_count = int(''.join(re.findall(r'\d',share_count)))
                     print("repub: ",share_count)
-                    #share_count = convert_abbreviated_to_number(share_count.split()[0])
                 except Exception as e:
                     print(f"Post has no shares or error extracting shares count: {e}")
                     share_count = 0
@@ -112,7 +109,8 @@ class LinkedInScraper:
                     "MediaType": media_type,
                     "ReactionsCount": reaction_count,
                     "SharesCount": share_count,
-                    "Comments": post_comments
+                    "Comments": post_comments,
+                    "Comments_count": len(post_comments)
                 })
         except Exception as e:
             print(f"Error processing posts: {e}")
@@ -150,15 +148,16 @@ class LinkedInScraper:
 
         try:
             comments_soup = bs(self.driver.page_source.encode("utf-8"), "html.parser")
-            all_comments_articles = comments_soup.find_all(lambda tag: tag.name == 'article' and tag.get('class') == ['comments-comment-entity'])
+            all_comments_articles = comments_soup.find_all('article',{'class':'comments-comments-list__comment-item'})
             post_comments = []
             for comment in all_comments_articles[previousLen:]:
                 main_comment = comment.find("span", {"class":"comments-comment-item__main-content"})
                 replies = get_comment_replies(comment)
-                post_comments.append({'comment': main_comment.find("span").text, 'replies': replies})
+                replies_count = 0 if replies == None else len(replies)
+                post_comments.append({'comment': main_comment.find("span").text, 'replies': replies,'replies_count':replies_count})
             return post_comments
         except Exception as e:
-            print(f"Error extracting comments from post: {e}")
+            print(f"Post has no comments or error extracting comments from post: {e}")
             return []
 
     def click_voir_plus(self, post):
@@ -191,3 +190,97 @@ class LinkedInScraper:
             self.driver.quit()
         except Exception as e:
             print(f"Error closing the browser: {e}")
+    def pseudo_exists(self,user_id):
+        # Construct the LinkedIn profile URL
+        profile_url = f"https://www.linkedin.com/in/{user_id}/"
+        self.driver.get(profile_url)
+        
+        try:
+            time.sleep(4)
+            soup = bs(self.driver.page_source.encode("utf-8"), "html.parser")
+            profile_div = soup.find("div",{"id":"profile-content"})
+            if(not profile_div):
+                print("not found")
+                return False
+            else:
+                print("exists")
+                return True
+        except Exception as e:
+            print(f"error: {e}")
+            return False
+        
+    def publication_exists(self,pub_link):
+        # Construct the LinkedIn profile URL
+        self.driver.get(pub_link)
+        
+        try:
+            time.sleep(4)
+            soup = bs(self.driver.page_source.encode("utf-8"), "html.parser")
+            profile_div = soup.find("main",{"class":"scaffold-layout__main"})
+            if(not profile_div):
+                print("post not found")
+                return False
+            else:
+                print("post exists")
+                return True
+        except Exception as e:
+            print(f"error: {e}")
+            return False
+        
+    def get_user_info(self, user_id):
+        profile_url = f"https://www.linkedin.com/in/{user_id}/"
+        self.driver.get(profile_url)
+
+        # Initialize variables
+        name = ''
+        user_description = ''
+        profile_pic = ''
+        cover_img = ''
+        nbr_followers = ''
+
+        try:
+            time.sleep(4)
+            soup = bs(self.driver.page_source.encode("utf-8"), "html.parser")
+            all_sections = soup.find_all("section", {"class": "artdeco-card"})
+            section1 = all_sections[0]
+            section4 = all_sections[3]
+            
+            # Extract name
+            name_tag = section1.find("h1")
+            if name_tag:
+                name = name_tag.text
+            
+            # Extract user description
+            desc_tag = section1.find("div", {"class": "break-words"})
+            if desc_tag:
+                user_description = desc_tag.text
+            
+            # Extract profile picture
+            profile_pic_tag = section1.find("img", {"title": name})
+            if profile_pic_tag:
+                profile_pic = profile_pic_tag['src']
+            
+            # Extract cover image
+            cover_img_tag = section1.find("div", {"class": "profile-background-image"}).find("img")
+            if cover_img_tag:
+                cover_img = cover_img_tag['src']
+            
+            # Extract number of followers
+            nbr_followers_tag = section4.find(lambda tag: tag.name == "span" and "abonnés" in tag.text)
+            if nbr_followers_tag:
+                nbr_followers = nbr_followers_tag.text
+
+        except Exception as e:
+            print(f"Error: {e}")
+        
+        return {
+            'name': name,
+            'user_description': user_description,
+            'nb_publications': '',
+            'profile_pic': profile_pic,
+            'link': profile_url,
+            'cover_pic': cover_img,
+            'date': '',
+            'followings': '',
+            'followers': nbr_followers
+        }
